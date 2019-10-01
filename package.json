@@ -1,0 +1,15 @@
+{
+  "name": "node-fatec",
+  "version": "1.0.0",
+  "description": "Projeto de apresentação da tecnologia NodeJS para a turma de Consultoria Web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "thiagocolebrusco",
+  "license": "ISC",
+  "dependencies": {
+    "consign": "^0.1.6",
+    "express": "^4.17.1"
+  }
+}
