@@ -1,30 +1,44 @@
 module.exports = function(app) {
+    let produtosModel = app.get("mongoose").model("Produtos")
 
     return {
         listar: function(req, res) {
-            res.json(app.db.produtos)
+            produtosModel.find({})
+                .then((produtos) => {
+                    res.json(produtos)
+                })
         },
         consultarPorId: function(req, res) {
             let id = req.params.id
-            let produto = app.db.produtos.filter((item) => item.id == id)
-            res.json(produto)
+            produtosModel.findById(id)
+                .then((produto, err) => {
+                    if(err)
+                        res.end("Não foi possível consultar o produto")
+                    else
+                        res.json(produto)
+                })
         },
         adicionar: (req, res) => {
-            let produto = req.body
-            app.db.produtos.push(produto)
-            res.end("Adicionar produto")
+            let produto = new produtosModel(req.body)
+            produto.save((err) => {
+                if(err)
+                    res.end("Erro ao inserir produto")
+                else
+                    res.end("Produto adicionado com sucesso")
+            })
         },
         atualizar: (req, res) => {
             let id = req.params.id
             let produto = req.body
-            let index = app.db.produtos.findIndex((item) => item.id == id)
-            app.db.produtos[index] = produto
-            res.end("Produto atualizado com sucesso!")
+            produtosModel.findByIdAndUpdate(id, produto, (err) => {
+                res.end(err ? err : "Produto atualizado com sucesso")
+            })
         },
         excluir: (req, res) => {
             let id = req.params.id
-            app.db.produtos = app.db.produtos.filter((item) => item.id != id)
-            res.end("Produto excluido com sucesso!")
+            produtosModel.findByIdAndRemove(id, (err) => {
+                res.end(err ? err : "Produto excluído com sucesso")
+            })
         }
     }
 }
