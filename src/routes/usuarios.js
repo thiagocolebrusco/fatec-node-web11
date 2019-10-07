@@ -1,5 +1,5 @@
 module.exports = function(app) {
-
+    
     const usuariosController = app.controllers.usuarios   
 
     app.get("/usuarios", usuariosController.listar)
