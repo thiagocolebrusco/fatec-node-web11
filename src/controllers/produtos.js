@@ -3,6 +3,7 @@ module.exports = function(app) {
 
     return {
         listar: function(req, res) {
+            console.log(req.decoded)
             produtosModel.find({})
                 .then((produtos) => {
                     res.json(produtos)

@@ -22,7 +22,7 @@ module.exports = function(app) {
             let usuario = new usuariosModel(req.body)
             usuario.save((err) => {
                 if(err)
-                    res.end("Erro ao inserir usuário")
+                    res.end("Erro ao inserir usuário: " + err)
                 else
                     res.end("Usuário adicionado com sucesso")
             })
@@ -39,6 +39,33 @@ module.exports = function(app) {
             usuariosModel.findByIdAndRemove(id, (err) => {
                 res.end(err ? err : "Usuário excluído com sucesso")
             })
+        },
+        login: (req, res) => {
+            let email = req.body.email,
+                senha = req.body.senha
+
+
+            
+            usuariosModel.findOne({ email })
+                .then((usuario) => {
+                    if(! usuario) {
+                        res.end("Usuário não encontrado")
+                    } else if (usuario.senha != senha) {
+                        res.end("Senha inválida")
+                    } else {
+                        let payload = { 
+                            id: usuario._id, 
+                            email 
+                        }
+                        let token = app.get("jwt").sign(payload, "senhasupersecreta", {
+                            expiresIn: 60*60*24
+                        })
+                        res.json({
+                            token,
+                            usuario
+                        })
+                    }
+                })
         }
     }
 } 

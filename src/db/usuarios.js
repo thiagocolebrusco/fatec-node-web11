@@ -11,4 +11,4 @@ module.exports = [
         email: 'fulano@fatecriopreto.edu.br',
         senha: '652362'
     }
-] 
+]
