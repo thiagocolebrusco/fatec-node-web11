@@ -9,7 +9,7 @@ module.exports = (app) => {
                 if(!token) {
                     res.end("Faltou enviar o token")
                 } else {
-                    app.get("jwt").verify(token, "senhasupersecreta", (err, decoded) => {
+                    app.get("jwt").verify(token, process.env.JWT_CHAVE_PRIVADA, (err, decoded) => {
                             if(err){
                                 res.end(err)
                             } else {

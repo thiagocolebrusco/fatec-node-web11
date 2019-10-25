@@ -21,6 +21,7 @@ module.exports = function(app) {
         },
         adicionar: (req, res) => {
             let produto = new produtosModel(req.body)
+            produto.imagem = req.file.path
             produto.save((err) => {
                 if(err)
                     res.end("Erro ao inserir produto")

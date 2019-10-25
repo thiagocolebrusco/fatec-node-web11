@@ -57,7 +57,7 @@ module.exports = function(app) {
                             id: usuario._id, 
                             email 
                         }
-                        let token = app.get("jwt").sign(payload, "senhasupersecreta", {
+                        let token = app.get("jwt").sign(payload, process.env.JWT_CHAVE_PRIVADA, {
                             expiresIn: 60*60*24
                         })
                         res.json({
